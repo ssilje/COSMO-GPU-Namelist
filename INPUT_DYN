@@ -42,6 +42,6 @@
     ieva_order=3,
     itype_outflow_qrsg=1,
     itype_lbc_qrsg = 1,
-    ldivdamp_old = .false. !when trur For consistency with CORDEX experiment
+    ldivdamp_old = .false. !when true For consistency with CORDEX experiment
      divdamp_slope = 1,
  /END
