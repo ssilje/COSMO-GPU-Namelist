@@ -1,0 +1,9 @@
+ &DIACTL
+  n0meanval = 0, nincmeanval = 24,
+  lgplong = .FALSE., lgpshort = .TRUE., lgpspec = .FALSE.,
+  n0gp = 0, hincgp = 6.0,
+  stationlist_tot= 0, 0, 53.633,  9.983, 'Hamburg',
+  0,0,51.767,14.333,'Cottbus',
+  0,0,47.074,15.443,'Graz',
+  0,0,47.343,8.522,'Zuerich',
+  /END

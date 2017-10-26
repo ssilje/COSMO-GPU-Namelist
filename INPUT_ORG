@@ -1,0 +1,36 @@
+ &LMGRID
+  startlat_tot = -28.93,
+  startlon_tot  = -33.93,
+  pollat = 39.25,
+  pollon = -162.0,
+  dlon = 0.440,
+  dlat = 0.440,
+  ie_tot = 132,
+  je_tot = 129,
+  ke_tot = 40,
+ /END
+ &RUNCTL
+  dt = 300,
+  hstart = 0, hstop = 8760,
+  ydate_ini = '1979010100',
+  ydate_end = '1981010100',
+  nprocx = 1, nprocy = 1, nprocio = 0, nproma = -1,
+  nboundlines = 3, 
+  itype_calendar = 0,
+  hincmxt = 24, hincmxu = 24,
+  ncomm_type = 1,
+  ldump_ascii=.FALSE.,
+ /END
+ &ARTIFCTL
+  irefatm = 2,
+ /END
+&TUNING
+  securi = 0.5,
+  tkhmin = 1.0,
+  tkmmin = 1.0,
+  mu_rain = 0.5,
+  v0snow = 20.0,
+  rlam_heat = 1.0,
+  qi0 = 0.0,
+ /END
+
