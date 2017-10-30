@@ -1,7 +1,7 @@
  &IOCTL
   l_ke_in_gds=.TRUE.,
   yform_read = 'ncdf',
-  nhour_restart = 8760,8760,720,
+  nhour_restart = 0,
   ydir_restart_out = './restart',
   ydir_restart_in = './restart',
   ytunit_restart = 'd',
