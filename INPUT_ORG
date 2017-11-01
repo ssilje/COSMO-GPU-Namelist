@@ -13,7 +13,7 @@
   dt = 300,
   hstart = 0, hstop = 8760,
   ydate_ini = '1979010100',
-  ydate_end = '1981010100',
+  ydate_end = '2009010100',
   nprocx = 1, nprocy = 1, nprocio = 0, nproma = -1,
   nboundlines = 3, 
   itype_calendar = 0,

@@ -1,7 +1,7 @@
  &IOCTL
   l_ke_in_gds=.TRUE.,
   yform_read = 'ncdf',
-  nhour_restart = 0,
+  nhour_restart = 8760,8760,720,
   ydir_restart_out = './restart',
   ydir_restart_in = './restart',
   ytunit_restart = 'd',
@@ -43,7 +43,7 @@
  &GRIBOUT
   hcomb = 0,8760,3,
   yvarml='FRESHSNW','PP','QC','QI','QV','QV_S','T','T_S','T_SNOW','T_SO',
-         'U','V','W_I','W_SNOW','W_SO','KLW','DLW','WTDEPTH','FLX','S_ORO','S_SO','SATLEV',
+         'U','V','W_I','W_SNOW','W_SO','WTDEPTH','S_SO','SATLEV',
          'Q_ROFF','W_SO_ICE',
   yvarpl = ' ', 
   yvarzl = ' ',
