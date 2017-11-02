@@ -4,10 +4,10 @@
   alphaass = 0.53,
   lexpl_lbc=.true.,
   rlwidth = 500000.0, ! 10 x dx
-  y_scalar_advect = ''Bott2_STRANG',
+  y_scalar_advect = 'Bott2_STRANG',
   ldyn_bbc = .false.,
   lspubc=.true.,
-  itype_spubc=1.,
+  itype_spubc=1,
   rdheight=11000.0,
   nrdtau = 6,
   itype_bbc_w = 114,
