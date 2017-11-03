@@ -12,5 +12,6 @@
     itype_heatcond = 2,
     itype_aerosol = 2,
     itype_root= 2,
-    itype_hydcond = 1
+    itype_hydcond = 1,
+    itype_hydmod=1
  /END
