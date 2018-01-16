@@ -1,5 +1,5 @@
  &PHYCTL
-    ico2_rad = 0,
+    ico2_rad = 2,
     limpltkediff = .FALSE.,
     lseaice = .FALSE.,
 ! Extension for albedo treatman of DL
