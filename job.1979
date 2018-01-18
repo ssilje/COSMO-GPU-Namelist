@@ -1,0 +1,71 @@
+#!/bin/tcsh
+#SBATCH --job-name=cosmo_gpu_50km_2n
+#SBATCH --ntasks=2
+#SBATCH --output=log/cclmgpu_50km_erai_1979.out
+#SBATCH --error=log/cclmgpu_50km_erai_1979.err
+#SBATCH --time=04:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --account=pr04
+#SBATCH --ntasks-per-node=1
+
+
+
+setenv MV2_ENABLE_AFFINITY 0
+setenv MV2_USE_CUDA 1
+setenv MPICH_RDMA_ENABLED_CUDA 1
+setenv MPICH_G2G_PIPELINE 256
+
+ulimit -s unlimited
+
+export OMP_NUM_THREADS=1
+export MALLOC_MMAP_MAX_=0
+export MALLOC_TRIM_THRESHOLD_=536870912
+
+# ----------------
+# GPU version
+# ----------------
+export G2G=1
+export MV2_USE_CUDA=1
+export MV2_USE_GPUDIRECT=0
+export COSMO_NPROC_NODEVICE=0
+
+source modules_fortran.env
+
+cd /scratch/snx3000/ssilje/COSMO-GPU_EUR50_ERAI_1979_2000_gamma0.4
+if ( -e YUSPECIF ) then
+/bin/rm YU*
+endif
+
+if ( -e INPUT_ORG ) then
+  /bin/rm -f INPUT_ORG
+endif
+
+cp INPUT_ORG.1979 INPUT_ORG
+
+if ( -e INPUT_IO ) then
+  /bin/rm -f INPUT_IO
+endif
+cp INPUT_IO.1979 INPUT_IO
+
+# Run CLM in working directory
+
+export MPICH_GNI_LMT_PATH=disabled  
+srun -n 2 -u ./cosmo 
+
+
+foreach f (YU*)
+  mv $f log/${f}.1979
+end
+
+foreach f (M_*)
+  mv $f output/station/${f}.1979
+end
+
+
+if (1979 < 2000) then 
+  if ( -e ./restart/lrfd1980010100o ) then
+    sbatch -N 2 -C gpu jobs/job.1980
+  endif
+endif 
+
+
