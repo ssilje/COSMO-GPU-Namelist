@@ -40,7 +40,7 @@
        hstop                       8760.0000             0.0000        R 
        dt                           300.0000            30.0000        R 
        ydate_ini                1979010100         -                  C*10
-       ydate_end                2009010100         -                  C*10
+       ydate_end                2001010100         -                  C*10
        ydate_bd                 1979010100         -                  C*10
        itype_calendar                      0                  0        I 
        hincmxt                       24.0000             6.0000        R 
@@ -58,6 +58,7 @@
        l_pollen                            F                  F        L 
        ldump_ascii                         F                  T        L 
        lreproduce                          T                  T        L 
+       l_t_check                           T                  T        L 
        lreorder                            F                  F        L 
        lartif_data                         F                  F        L 
        lperi_x                             F                  F        L 
@@ -65,7 +66,7 @@
        l2dim                               F                  F        L 
        lroutine                            F                  F        L 
        llm                                 F                  F        L 
-       nprocx                              1                  1        I 
+       nprocx                              2                  1        I 
        nprocy                              1                  1        I 
        nprocio                             0                  0        I 
        num_asynio_comm                     0                  0        I 
@@ -101,7 +102,7 @@
        tkesmot                        0.1500             0.1500        R 
        wichfakt                       0.0000             0.0000        R 
        securi                         0.5000             0.5000        R 
-       tkhmin                         1.0000             0.4000        R 
+       tkhmin                         0.4000             0.4000        R 
        tkmmin                         1.0000             0.4000        R 
        rlam_mom                       0.0000             0.0000        R 
        rlam_heat                      1.0000             1.0000        R 
@@ -133,10 +134,11 @@
        cloud_num                    5.00E+08         5.0000E+08        R 
        entr_sc                        0.0003             0.0003        R 
        thick_sc                   25000.0000         25000.0000        R 
-       uc1                            0.8000             0.8000        R 
-       radfac                         0.5000             0.5000        R 
+       uc1                            0.3000             0.8000        R 
+       radfac                         0.6000             0.5000        R 
        fac_rootdp2                    1.0000             1.0000        R 
        soilhyd                        1.0000             1.0000        R 
+       cgamma                         0.4000             0.4000        R 
   
   
 0     NAMELIST:  dynctl
@@ -257,6 +259,8 @@
        itype_hydcond           1                  0        I 
        itype_root              2                  1        I 
        lstomata                F                  F        L 
+       itype_hydmod            1                  0        I 
+       lsoil_init_fi           T                  F        L 
        ltkesso                 F                  F        L 
        ltkecon                 F                  F        L 
        lexpcor                 F                  F        L 
@@ -378,17 +382,17 @@
        yform_read                       ncdf               grb1       C*4
        yncglob_institution      Institute for Atmospheric and Climate Science, ETH Zurich, Switzerland
                                 -                                     C*200
-       yncglob_title            test cosmo-gpu over Europe
+       yncglob_title            control simulation cosmo-gpu over Europe
                                 -                                     C*200
-       yncglob_source           test
+       yncglob_source           control
                                 -                                     C*200
-       yncglob_project_id       CORDEX-EU 0.44  test
+       yncglob_project_id       CORDEX-EU 0.44
                                 -                                     C*200
-       yncglob_experiment_id     test
+       yncglob_experiment_id     ERA-I control
                                 -                                     C*200
        yncglob_contact          Silje Soerland (silje.soerland@env.ethz.ch)
                                 -                                     C*200
-       yncglob_references       test
+       yncglob_references       control
                                 -                                     C*200
        ncglob_realization                  1               -999        I 
        lasync_io                           F                  F        L 
@@ -530,19 +534,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
   
 0     END OF NAMELIST  gribout
   
@@ -609,19 +614,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
   
 0     END OF NAMELIST  gribout
   
@@ -692,19 +698,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
   
 0     END OF NAMELIST  gribout
   
@@ -793,19 +800,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
   
 0     END OF NAMELIST  gribout
   
@@ -886,19 +894,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
   
 0     END OF NAMELIST  gribout
   
@@ -961,19 +970,20 @@ Constant variables
        yvarc (006)              RLON               -                  C10
        yvarc (007)              FR_LAND            -                  C10
        yvarc (008)              SOILTYP            -                  C10
-       yvarc (009)              FOR_E              -                  C10
-       yvarc (010)              FOR_D              -                  C10
-       yvarc (011)              SSO_STDH           -                  C10
-       yvarc (012)              SSO_GAMMA          -                  C10
-       yvarc (013)              SSO_THETA          -                  C10
-       yvarc (014)              SSO_SIGMA          -                  C10
-       yvarc (015)              AER_SO4            -                  C10
-       yvarc (016)              AER_DUST           -                  C10
-       yvarc (017)              AER_ORG            -                  C10
-       yvarc (018)              AER_BC             -                  C10
-       yvarc (019)              AER_SS             -                  C10
-       yvarc (020)              ALB_DRY            -                  C10
-       yvarc (021)              ALB_SAT            -                  C10
+       yvarc (009)              S_ORO              -                  C10
+       yvarc (010)              FOR_E              -                  C10
+       yvarc (011)              FOR_D              -                  C10
+       yvarc (012)              SSO_STDH           -                  C10
+       yvarc (013)              SSO_GAMMA          -                  C10
+       yvarc (014)              SSO_THETA          -                  C10
+       yvarc (015)              SSO_SIGMA          -                  C10
+       yvarc (016)              AER_SO4            -                  C10
+       yvarc (017)              AER_DUST           -                  C10
+       yvarc (018)              AER_ORG            -                  C10
+       yvarc (019)              AER_BC             -                  C10
+       yvarc (020)              AER_SS             -                  C10
+       yvarc (021)              ALB_DRY            -                  C10
+       yvarc (022)              ALB_SAT            -                  C10
  
 Variables for p-interpolation
        yvarpl(001)              FI                 -                  C10
@@ -1017,22 +1027,23 @@ Variables for initial input
        yvarini(021)             T_S                -                  C10
        yvarini(022)             QV                 -                  C10
        yvarini(023)             QC                 -                  C10
-       yvarini(024)             T_SO               -                  C10
-       yvarini(025)             W_SO               -                  C10
-       yvarini(026)             FRESHSNW           -                  C10
-       yvarini(027)             FOR_E              -                  C10
-       yvarini(028)             FOR_D              -                  C10
-       yvarini(029)             SSO_STDH           -                  C10
-       yvarini(030)             SSO_GAMMA          -                  C10
-       yvarini(031)             SSO_THETA          -                  C10
-       yvarini(032)             SSO_SIGMA          -                  C10
-       yvarini(033)             AER_SO4            -                  C10
-       yvarini(034)             AER_DUST           -                  C10
-       yvarini(035)             AER_ORG            -                  C10
-       yvarini(036)             AER_BC             -                  C10
-       yvarini(037)             AER_SS             -                  C10
-       yvarini(038)             ALB_DRY            -                  C10
-       yvarini(039)             ALB_SAT            -                  C10
+       yvarini(024)             S_ORO              -                  C10
+       yvarini(025)             T_SO               -                  C10
+       yvarini(026)             W_SO               -                  C10
+       yvarini(027)             FRESHSNW           -                  C10
+       yvarini(028)             FOR_E              -                  C10
+       yvarini(029)             FOR_D              -                  C10
+       yvarini(030)             SSO_STDH           -                  C10
+       yvarini(031)             SSO_GAMMA          -                  C10
+       yvarini(032)             SSO_THETA          -                  C10
+       yvarini(033)             SSO_SIGMA          -                  C10
+       yvarini(034)             AER_SO4            -                  C10
+       yvarini(035)             AER_DUST           -                  C10
+       yvarini(036)             AER_ORG            -                  C10
+       yvarini(037)             AER_BC             -                  C10
+       yvarini(038)             AER_SS             -                  C10
+       yvarini(039)             ALB_DRY            -                  C10
+       yvarini(040)             ALB_SAT            -                  C10
   
 Variables for boundary input
        yvarbd(001)              U                  -                  C10

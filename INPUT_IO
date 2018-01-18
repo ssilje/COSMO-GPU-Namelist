@@ -8,13 +8,13 @@
   ngribout = 6,
   yncglob_institution="Institute for Atmospheric and Climate Science, ETH Zurich
 , Switzerland",
-  yncglob_title = "test cosmo-gpu over Europe",
-  yncglob_source = "test",
-  yncglob_project_id = "CORDEX-EU 0.44  test",
-  yncglob_experiment_id =" test ",
+  yncglob_title = "control simulation cosmo-gpu over Europe",
+  yncglob_source = "control",
+  yncglob_project_id = "CORDEX-EU 0.44 ",
+  yncglob_experiment_id =" ERA-I control ",
   ncglob_realization = 1,
   yncglob_contact = "Silje Soerland (silje.soerland@env.ethz.ch)"
-  yncglob_references = "test",
+  yncglob_references = "control",
   lbdclim = .TRUE.,
  /END
  &DATABASE

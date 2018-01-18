@@ -13,8 +13,8 @@
   dt = 300,
   hstart = 0, hstop = 8760,
   ydate_ini = '1979010100',
-  ydate_end = '2009010100',
-  nprocx = 6, nprocy = 4, nprocio = 0, nproma = -1,
+  ydate_end = '2001010100',
+  nprocx = 2, nprocy = 1, nprocio = 0, nproma = -1,
   nboundlines = 3, 
   itype_calendar = 0,
   hincmxt = 24, hincmxu = 24,
@@ -26,12 +26,16 @@
  /END
 &TUNING
   securi = 0.5,
-  tkhmin = 1.0,
+  tkhmin = 0.4,
   tkmmin = 1.0,
   mu_rain = 0.5,
   v0snow = 20.0,
   rlam_heat = 1.0,
   qi0 = 0.0,
   uc1 = 0.3,
+  cgamma= 0.4,
+  tur_len= 500.0,
+  fac_rootdp2= 1.0,
+  radfac= 0.6,
  /END
 
