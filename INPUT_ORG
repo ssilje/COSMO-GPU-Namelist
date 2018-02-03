@@ -11,10 +11,10 @@
  /END
  &RUNCTL
   dt = 300,
-  hstart = 0, hstop = 8760,
-  ydate_ini = '1979010100',
-  ydate_end = '2001010100',
-  nprocx = 2, nprocy = 1, nprocio = 0, nproma = -1,
+  hstart = 0, hstop = 8784,
+  ydate_ini = '2000010100',
+  ydate_end = '2010010100',
+  nprocx = 1, nprocy = 1, nprocio = 0, nproma = -1,
   nboundlines = 3, 
   itype_calendar = 0,
   hincmxt = 24, hincmxu = 24,
@@ -33,7 +33,7 @@
   rlam_heat = 1.0,
   qi0 = 0.0,
   uc1 = 0.3,
-  cgamma= 0.4,
+  cgamma= 0.8,
   tur_len= 500.0,
   fac_rootdp2= 1.0,
   radfac= 0.6,

@@ -14,6 +14,6 @@
     itype_root= 2,
     itype_hydcond = 1,
     itype_hydmod=1
-    lsoil_init_fill = .TRUE. !True only for first year of simulation
-!    lsoil_init_fill = .FALSE. 
+!    lsoil_init_fill = .TRUE. !True only for first year of simulation before a  soilmoisture is generated
+    lsoil_init_fill = .FALSE. 
  /END

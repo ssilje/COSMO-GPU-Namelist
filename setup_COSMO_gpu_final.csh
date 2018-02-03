@@ -7,11 +7,11 @@ if ($#argv != 1) then
 endif
 
 # get command line arguments
-set experiment=COSMO-GPU_EUR50_ERAI_1979_2000_gamma0.4
+set experiment=COSMO-GPU_EUR50_ERAI_calibration_2000_2010
 set numbyear=$argv[1]
 
 
-set startdate=1979010100
+set startdate=2000010100
 
 set startyear=`echo $startdate | cut -c1-4`
 @ endyear = ${startyear} + ${numbyear}
@@ -49,6 +49,8 @@ cp /project/pr04/ssilje/RUN_COSMO_gpu/INPUT_files/modules_fortran.env $workdir
 
 set yr=${startyear}
 @ nyr = $startyear + 1
+@ lyr = $startyear - 1
+
 set stahr=0
 set endhr=`/users/luethi/bin/time_diff ${startdate} ${nyr}010100`
 set dirin="./input/${yr}/"
@@ -73,7 +75,7 @@ cat > ${workdir}/INPUT_ORG.${yr} <<EOFEOF
   hstart = ${stahr}, hstop = ${endhr},
   ydate_ini = '${startdate}',
   ydate_end = '${enddate}',
-  nprocx = 2, nprocy = 1, nprocio = 0, nproma = -1,
+  nprocx = 1, nprocy = 1, nprocio = 0, nproma = -1,
   nboundlines = 3, 
   itype_calendar = 0,
   hincmxt = 24, hincmxu = 24,
@@ -92,7 +94,7 @@ cat > ${workdir}/INPUT_ORG.${yr} <<EOFEOF
   rlam_heat = 1.0,
   qi0 = 0.0,
   uc1 = 0.3,
-  cgamma= 0.4,
+  cgamma= 0.8,
   tur_len= 500.0,
   fac_rootdp2= 1.0,
   radfac= 0.6,
@@ -111,7 +113,7 @@ EOFEOF
   ydir_restart_out = './restart',
   ydir_restart_in = './restart',
   ytunit_restart = 'd',
-  ngribout = 6,
+  ngribout = 7,
   yncglob_institution="Institute for Atmospheric and Climate Science, ETH Zurich
 , Switzerland",
   yncglob_title = "control simulation cosmo-gpu over Europe",
@@ -242,8 +244,8 @@ EOFEOF
 # create job file for current year
 cat > ${workdir}/jobs/job.${yr} <<EOF
 #!/bin/tcsh
-#SBATCH --job-name=cosmo_gpu_50km_2n
-#SBATCH --ntasks=2
+#SBATCH --job-name=cclm-gpu-50km_${yr}
+#SBATCH --ntasks=1
 #SBATCH --output=log/cclmgpu_50km_erai_${yr}.out
 #SBATCH --error=log/cclmgpu_50km_erai_${yr}.err
 #SBATCH --time=04:00:00
@@ -293,7 +295,7 @@ cp INPUT_IO.$yr INPUT_IO
 # Run CLM in working directory
 
 export MPICH_GNI_LMT_PATH=disabled  
-srun -n 2 -u ./cosmo 
+srun -n 1 -u ./cosmo 
 
 
 foreach f (YU*)
@@ -307,12 +309,14 @@ end
 
 if (${yr} < ${endyear}) then 
   if ( -e ./restart/lrfd${nyr}010100o ) then
-    sbatch -N 2 -C gpu jobs/job.${nyr}
+    sbatch -N 1 -C gpu jobs/job.${nyr}
   endif
 endif 
 
 
 EOF
+
+
 
 cat > ${workdir}/jobs/lbc_xfer.${yr} <<EOFEOF
 #!/bin/csh
@@ -332,10 +336,20 @@ if (! -d ${workdir}/input/${yr}) then
 endif
 
 cd ${workdir}/input/${yr}
+
 foreach f (/store/c2sm/ch4/CORDEX_044/driving_data/year${yr}/laf*.tar )
    tar xvf \$f
 end
- cd ${workdir}/
+
+if (${yr} > ${startyear}) then 
+
+  cp  ${workdir}/input/${lyr}/lbfd${lyr}123118.nc .  
+
+endif 
+ 
+cd ${workdir}/input/${yr}
+
+cd ${workdir}/
 if (${yr} < ${endyear}) then 
 
     sbatch jobs/lbc_xfer.${nyr}
@@ -350,6 +364,7 @@ EOFEOF
   set dirin='./restart/'
   set yr=$nyr
   @ nyr++
+  @ lyr++
   set stahr=$endhr
   set endhr=`/users/luethi/bin/time_diff ${startdate} ${nyr}010100`
 
@@ -364,9 +379,6 @@ end
 
 # link executable to working directory
 
-#scp /project/pr04/ssilje/cosmo_pompa/cosmo-pompa/cosmo/cosmo ${workdir}/cosmo 
-#scp /scratch/snx3000/ksilver/merge_terra/cosmo-pompa/cosmo/cosmo_cordex_gpu ${workdir}/cosmo 
-#scp /scratch/snx1600/ksilver/cclm_gpu/ssilje/COSMO_gpu_50km_test/cosmo ${workdir}/cosmo 
-#scp /scratch/snx3000/ksilver/merge_terra/cosmo-pompa/cosmo/cosmo_cordex_gpu ${workdir}/cosmo 
+
 ln -sf /scratch/snx3000/ksilver/merge_terra/pascal_fix/cosmo-pompa/cosmo/cosmo_cordex_gpu ${workdir}/cosmo 
 exit 0
