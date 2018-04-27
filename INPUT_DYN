@@ -8,7 +8,7 @@
   ldyn_bbc = .false.,
   lspubc=.true.,
   itype_spubc=3,
-  rdheight=13500.0,
+  rdheight=11000.0,
   nrdtau = 6,
   itype_bbc_w = 114,
   irunge_kutta=1,
